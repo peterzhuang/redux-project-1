@@ -10,6 +10,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src='https://ui.dev/goals-todos-api/index.js'></script>
+    <script src='https://unpkg.com/redux-thunk@2.3.0/dist/redux-thunk.min.js'></script>
 </head>
 <body>
     <div id="app"></div>
@@ -158,12 +159,12 @@
             return result
         }
 
-        const thunk = (store) => (next) => (action) => {
-            if (typeof action === 'function') {
-                return action(store.dispatch)
-            }
-            return next(action)
-        }
+        // const thunk = (store) => (next) => (action) => {
+        //     if (typeof action === 'function') {
+        //         return action(store.dispatch)
+        //     }
+        //     return next(action)
+        // }
 
 
         // Reducer function
@@ -243,7 +244,7 @@
             todos,
             goals,
             loading,
-        }), Redux.applyMiddleware(thunk, checker, logger))
+        }), Redux.applyMiddleware(ReduxThunk.default, checker, logger))
 
     </script>
 
