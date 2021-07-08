@@ -333,19 +333,23 @@
         }
         }
 
-        class ConnectedTodos extends React.Component {
-            render() {
-                return (
-                <Context.Consumer>
-                    {(store) => {
-                    const { todos } = store.getState()
+        const ConnectedTodos = connect((state) => ({
+            todos: state.todos
+        }))(Todos)
 
-                    return <Todos todos={todos} dispatch={store.dispatch} />
-                    }}
-                </Context.Consumer>
-                )
-            }
-        }
+        // class ConnectedTodos extends React.Component {
+        //     render() {
+        //         return (
+        //         <Context.Consumer>
+        //             {(store) => {
+        //             const { todos } = store.getState()
+
+        //             return <Todos todos={todos} dispatch={store.dispatch} />
+        //             }}
+        //         </Context.Consumer>
+        //         )
+        //     }
+        // }
 
         class Goals extends React.Component {
             addItem = (e) => {
@@ -401,24 +405,28 @@
         }
         }
 
-        class ConnectedGoals extends React.Component {
-            render() {
-                return (
-                <Context.Consumer>
-                    {(store) => {
-                    const { goals } = store.getState()
+        const ConnectedGoals = connect((state) => ({
+            goals: state.goals
+        }))(Goals)
 
-                    return <Goals goals={goals} dispatch={store.dispatch} />
-                    }}
-                </Context.Consumer>
-                )
-            }
-        }
+        // class ConnectedGoals extends React.Component {
+        //     render() {
+        //         return (
+        //         <Context.Consumer>
+        //             {(store) => {
+        //             const { goals } = store.getState()
+
+        //             return <Goals goals={goals} dispatch={store.dispatch} />
+        //             }}
+        //         </Context.Consumer>
+        //         )
+        //     }
+        // }
 
         class App extends React.Component {
             componentDidMount() {
-                const { store } = this.props 
-                store.dispatch(handleInitialData())
+                const { dispatch } = this.props 
+                dispatch(handleInitialData())
 
                 // Promise.all([
                 //     API.fetchTodos(),
@@ -429,12 +437,13 @@
                 //     store.dispatch(receiveDataAction(todos, goals))
                 // })
 
-                store.subscribe(() => this.forceUpdate())
+                // store.subscribe(() => this.forceUpdate())
             }
             render() {
                 // const { store } = this.props
                 // const { todos, goals, loading } = store.getState()
-                const { loading } = this.props.store.getState()
+                // const { loading } = this.props.store.getState()
+                const { loading } = this.props
 
                 if (loading) {
                     return <h3>Loading</h3>
@@ -449,17 +458,23 @@
             }
         }
 
-        class ConnectedApp extends React.Component {
-            render() {
-                return (
-                    <Context.Consumer>
-                        {(store) => (
-                            <App store={store} />
-                        )}
-                    </Context.Consumer>
-                )
-            }
-        }
+        // class ConnectedApp extends React.Component {
+        //     render() {
+        //         return (
+        //             <Context.Consumer>
+        //                 {(store) => (
+        //                     <App store={store} />
+        //                 )}
+        //             </Context.Consumer>
+        //         )
+        //     }
+        // }
+
+        const ConnectedApp = connect((state) => ({
+            loading: state.loading
+        }))(App)
+
+        //connect: Render any component, passing that component any data it needs from the store.
 
         const Context = React.createContext()
 
